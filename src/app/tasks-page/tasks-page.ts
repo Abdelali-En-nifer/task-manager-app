@@ -12,17 +12,17 @@ export class TasksPage {
   taskForm: FormGroup
   showCompletedOnly = signal(false);
 
-  completedCount = signal(2);
-  totalCount = signal(5);
-  remainingTask = computed(() => this.totalCount() - this.completedCount());
-
   constructor(public taskService: TaskService, private fb: FormBuilder){
       this.taskForm = this.fb.group({
-        taskName: ["", [Validators.required, Validators.minLength(5)]],
+        taskName: ["", [Validators.required]],
         taskStatus: [false]
       })
   }
   
+  get completedCount(): number {
+    return this.taskService.tasks.filter(task => task.done).length;
+  }
+
   toggleTask(id: number){
     this.taskService.toggleTasks(id);
   }
@@ -32,11 +32,22 @@ export class TasksPage {
   }
 
   onSubmit(){
-    console.log("new Task is added", this.taskForm.valid);
-    console.log("new Task is added", this.taskForm.value);
-    if(this.taskForm.valid){
-      this.taskService.addTask(this.taskForm.value.taskName, this.taskForm.value.taskStatus);
+
+    const name = String(this.taskForm.value.taskName ?? '').trim();
+    const done = this.taskForm.value.taskStatus === true;
+
+    if (!name) {
+      this.taskForm.controls['taskName'].setErrors({ required: true });
+      return;
     }
-    this.taskForm.reset();
+
+    this.taskService.addTask(name, done);
+    
+    this.taskForm.reset(
+      {
+        taskName: '',
+        taskStatus: false
+      }
+    );
   }
 }

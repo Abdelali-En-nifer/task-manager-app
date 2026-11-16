@@ -1,11 +1,160 @@
-.task-row{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.board {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
 }
-.complete{
-    background-color: green;
+
+.board-heading,
+.list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
-.pending{
-    background-color: orange;
+
+h2, h3 {
+  margin-top: 0;
+}
+
+.board-heading p {
+  color: #64748b;
+}
+
+.counter {
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 9px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.task-form {
+  background: #f8fafc;
+  padding: 22px;
+  border-radius: 12px;
+  margin: 28px 0;
+}
+
+.task-form label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0 16px;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.form-row button {
+  background: #2563eb;
+  color: white;
+}
+
+.form-row button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 13px;
+}
+
+.filter-btn,
+.change-btn {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.filter-btn:hover,
+.change-btn:hover {
+  background: #cbd5e1;
+}
+
+.task-list {
+  padding: 0;
+  margin-top: 18px;
+  list-style: none;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.task-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 500;
+}
+
+.task-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.complete {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.pending {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 22px;
+  color: #64748b;
+}
+
+@media (max-width: 650px) {
+  .board {
+    padding: 18px;
+  }
+
+  .board-heading,
+  .list-heading,
+  .task-row {
+    flex-wrap: wrap;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
 }

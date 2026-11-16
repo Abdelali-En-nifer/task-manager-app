@@ -1,36 +1,87 @@
-<p>TASKS:</p>
-<div>
+<section class="board">
 
-  <div>
-      <button (click)='toggleFilter()' >erledigte Tasks filtern</button>
-      <span>{{showCompletedOnly()? 'Filter aktiviert' : 'Filter disaktiviert'}}</span>
+  <div class="board-heading">
+    <div>
+      <h2>My Tasks</h2>
+      <p>Organize your tasks and track your progress.</p>
+    </div>
+
+    <span class="counter">
+      {{ completedCount }} / {{ taskService.tasks.length }} completed
+    </span>
   </div>
 
-  <ul>
-      @for (task of taskService.tasks; track task.id) {
-        @if (!showCompletedOnly() || task.done) {
-          <li class="task-row">
-          <span >{{task.name}}</span>
-          
-          <span [class.pending]="!task.done" [class.complete]="task.done"  >{{ task.done? 'Completed' : 'Pending'}}</span>
 
-          <button (click) = 'toggleTask(task.id)'>
-            Status ändern
-          </button>
-          </li>
-        }
-      }
-  </ul>
-  <div class="new-task-form"><h3>Add new Tasks</h3>
-    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" >
-      <label for="taskName">Task Name: </label>
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form" >
+    <h3>Add a new task</h3>
+    <label for="taskName">Task name </label>
+
+    <div class="form-row">
       <input type="text" formControlName="taskName" id="taskName">
+      <button type="submit" [disabled]="taskForm.invalid">add Task</button>
+    </div>
 
-      <label for="taskStatus">Task bereits erledigt: </label>
+    @if (
+      taskForm.controls['taskName'].touched &&
+      taskForm.controls['taskName'].invalid
+    ) {
+      <p class="error">Please enter a task name.</p>
+    }
+
+    <label class="checkbox-row">
       <input type="checkbox" formControlName="taskStatus" id="taskStatus">
+      Already completed
+    </label>
+  </form>
 
-      <button type="submit">Task hinzufügen</button>
-    </form>
+
+   <div class="list-heading">
+    <h3>Your Tasks</h3>
+
+    <button
+      type="button"
+      class="filter-btn"
+      (click)="toggleFilter()"
+    >
+      {{ showCompletedOnly() ? 'Show All' : 'Completed Only' }}
+    </button>
   </div>
-  
-</div>
+
+
+  <ul class="task-list">
+    @for (task of taskService.tasks; track task.id) {
+      @if (!showCompletedOnly() || task.done) {
+        <li class="task-row">
+          <span class="task-name">{{ task.name }}</span>
+
+          <span
+            class="task-status"
+            [class.pending]="!task.done"
+            [class.complete]="task.done"
+          >
+            {{ task.done ? 'Completed' : 'Pending' }}
+          </span>
+
+          <button
+            type="button"
+            class="change-btn"
+            (click)="toggleTask(task.id)"
+          >
+            Change Status
+          </button>
+        </li>
+      }
+    } @empty {
+      <li class="empty-state">No tasks yet.</li>
+    }
+  </ul>
+
+  @if (
+    showCompletedOnly() &&
+    completedCount === 0 &&
+    taskService.tasks.length > 0
+  ) {
+    <p class="empty-state">No completed tasks yet.</p>
+  }
+
+</section>
