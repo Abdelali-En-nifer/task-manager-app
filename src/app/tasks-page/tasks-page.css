@@ -1,0 +1,11 @@
+.task-row{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.complete{
+    background-color: green;
+}
+.pending{
+    background-color: orange;
+}

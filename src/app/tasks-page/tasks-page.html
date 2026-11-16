@@ -1,0 +1,36 @@
+<p>TASKS:</p>
+<div>
+
+  <div>
+      <button (click)='toggleFilter()' >erledigte Tasks filtern</button>
+      <span>{{showCompletedOnly()? 'Filter aktiviert' : 'Filter disaktiviert'}}</span>
+  </div>
+
+  <ul>
+      @for (task of taskService.tasks; track task.id) {
+        @if (!showCompletedOnly() || task.done) {
+          <li class="task-row">
+          <span >{{task.name}}</span>
+          
+          <span [class.pending]="!task.done" [class.complete]="task.done"  >{{ task.done? 'Completed' : 'Pending'}}</span>
+
+          <button (click) = 'toggleTask(task.id)'>
+            Status ändern
+          </button>
+          </li>
+        }
+      }
+  </ul>
+  <div class="new-task-form"><h3>Add new Tasks</h3>
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" >
+      <label for="taskName">Task Name: </label>
+      <input type="text" formControlName="taskName" id="taskName">
+
+      <label for="taskStatus">Task bereits erledigt: </label>
+      <input type="checkbox" formControlName="taskStatus" id="taskStatus">
+
+      <button type="submit">Task hinzufügen</button>
+    </form>
+  </div>
+  
+</div>
